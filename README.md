@@ -18,6 +18,11 @@
 
 ## Exercise 3
 
+### Husky bumps into pillar
 - check the exact value of sensor_msgs/LaserScan, this time the values are not what I imagined
 - Need to adjust control gain to get good performance
 
+### Visualize pillar observation
+
+- include headers for message
+- correct tf link
