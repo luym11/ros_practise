@@ -5,6 +5,9 @@
 #include <vector>
 #include <string>
 #include <std_msgs/Float32.h>
+#include <math.h>
+#include <geometry_msgs/Twist.h>
+#define pi 3.1419265358
 
 using std::vector;
 using std::string;
@@ -33,9 +36,14 @@ private:
 	string topic_name; 
 	int queue_size;
 	float minDistance; 
+	float pillarAngle; 
+	void husky_angle_controller(float angle); 
+	geometry_msgs::Twist cmd_vel_command; 
+	float control_gain; 
+	int direction_index; 
 
 	ros::Subscriber laser_scan_subs;
-	ros::Publisher distance_to_husky; 
+	ros::Publisher controlled_cmd_vel_publ; 
  
 };
 
