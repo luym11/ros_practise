@@ -7,6 +7,7 @@
 #include <std_msgs/Float32.h>
 #include <math.h>
 #include <geometry_msgs/Twist.h>
+#include <visualization_msgs/Marker.h>
 #define pi 3.1419265358
 
 using std::vector;
@@ -41,9 +42,11 @@ private:
 	geometry_msgs::Twist cmd_vel_command; 
 	float control_gain; 
 	int direction_index; 
+	void pillar_vis_marker_func(); 
 
 	ros::Subscriber laser_scan_subs;
 	ros::Publisher controlled_cmd_vel_publ; 
+	ros::Publisher pillar_vis; 
  
 };
 
