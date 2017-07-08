@@ -1,4 +1,5 @@
-##Exercise 1
+# [ETHZ ROS lectures](http://www.rsl.ethz.ch/education-students/lectures/ros.html)
+## Exercise 1
 
 - Correct way to publish to control gazebo husky
 
@@ -7,7 +8,7 @@
 - Each time changes code, need to rebuild and resource
 - If the program can't find something (eg., .world file), look at the launch file, use roscd to find correct place and put the files there
 
-##Exercise 2
+## Exercise 2
 
 - yaml file: care about the format and the way to write topic name (/scan)
 - .hpp: include essential header files
@@ -15,7 +16,7 @@
 	- callback: use -> for vector
 - .launch: rosparam format
 
-##Exercise 3
+## Exercise 3
 
 - check the exact value of sensor_msgs/LaserScan, this time the values are not what I imagined
 - Need to adjust control gain to get good performance
