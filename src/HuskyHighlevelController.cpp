@@ -27,7 +27,7 @@ void HuskyHighlevelController::laser_scan_Callback( const sensor_msgs::LaserScan
 		}
 	}
 	pillarAngle =  -0.785 + 1.5*pi/720 * direction_index; 
-	husky_angle_controller(pillarAngle); 
+	husky_angle_controller(2, pillarAngle); 
 	controlled_cmd_vel_publ.publish(cmd_vel_command);
 	pillar_vis_marker_func(); 
 	ROS_INFO_STREAM("The " << direction_index << "st message is chosen in " << laser_scan_distance.size() << " messages");
@@ -35,10 +35,10 @@ void HuskyHighlevelController::laser_scan_Callback( const sensor_msgs::LaserScan
 	ROS_INFO_STREAM("Angle_min " << laser_scan_msgs->angle_min << ", Angle_increment " << laser_scan_msgs->angle_increment);
 }
 
-void HuskyHighlevelController::husky_angle_controller(float angle){
+void HuskyHighlevelController::husky_angle_controller(float speed; float angle){
 	// let the husky go at a constant speed
 	// read the angle towards the pillar, and use PID to turn the husky to the pillar (control the angle to 0)
-	cmd_vel_command.linear.x = 2; 
+	cmd_vel_command.linear.x = speed; 
 	cmd_vel_command.angular.z = control_gain * (0 - (angle-pi/2)); 
 	
 }

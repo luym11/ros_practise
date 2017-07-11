@@ -38,7 +38,7 @@ private:
 	int queue_size;
 	float minDistance; 
 	float pillarAngle; 
-	void husky_angle_controller(float angle); 
+	void husky_angle_controller(floiat speed, float angle); 
 	geometry_msgs::Twist cmd_vel_command; 
 	float control_gain; 
 	int direction_index; 
