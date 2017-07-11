@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 		service.request.data = false;
 	}
 	if (client.call(service)) {
-		ROS_INFO("Result: %B", (bool)service.response.success);
+		// ROS_INFO("Result: %B", (bool)service.response.success);
 		if(service.response.success == true){
 			
 			ROS_DEBUG_STREAM(service.response.message);

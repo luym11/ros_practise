@@ -47,3 +47,36 @@ And be sure to add --clock while playing rosbag
 		```
 	- Husky's configuration need to be written in launch file. Do this by imitating spawn_husky.launch
 	
+## Exercise 5
+
+- implemented a service server to send some info to a topic, /start_stop to control manual stop of husky
+		```
+		rosservice call /emergency_stop "data: true"
+		```
+- implemented a service client to communicate with service server, send command from the client and receive feedback as an addition. 
+		```
+		rosrun husky_highlevel_controller husky_highlevel_controller_client 1      // for start, anything other than 1 for stop
+		```
+- Because there are more than one executables now, need to do a lot of modifications to CMakeLists.txt, especially in 
+	- find_package
+	- add_executable
+	- target_link_libraries
+
+- Need to modify package.xml accordingly
+- Created a subs in Husky node to enable/disable husky by sending controller real signal or a constant
+- According publ is in service server, as it's running all the time
+- Don't know why but ROS_DEBUG_MESSAGE only shows while calling service server in console
+
+
+- Didn't write client in launch file now. Can be done in future or add this in other parts of the program(automatic stop)
+
+###Refs
+
+https://www.ethz.ch/content/dam/ethz/special-interest/mavt/robotics-n-intelligent-systems/rsl-dam/ROS2017/exercise5.pdf    
+https://github.com/fairlight1337/ros_service_examples/blob/master/CMakeLists.txt   
+http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html   
+https://www.ethz.ch/content/dam/ethz/special-interest/mavt/robotics-n-intelligent-systems/rsl-dam/ROS2017/lecture4.pdf   
+http://wiki.ros.org/ROS/Tutorials/ExaminingServiceClient   
+
+
+
