@@ -8,6 +8,7 @@
 #include <math.h>
 #include <geometry_msgs/Twist.h>
 #include <visualization_msgs/Marker.h>
+#include <std_msgs/Bool.h>
 #define pi 3.1419265358
 
 using std::vector;
@@ -38,15 +39,19 @@ private:
 	int queue_size;
 	float minDistance; 
 	float pillarAngle; 
-	void husky_angle_controller(floiat speed, float angle); 
+	void husky_angle_controller(float speed, float angle); 
 	geometry_msgs::Twist cmd_vel_command; 
 	float control_gain; 
 	int direction_index; 
 	void pillar_vis_marker_func(); 
 
+	void start_stop_Callback( const std_msgs::Bool trigger );
+	bool status_; 
+
 	ros::Subscriber laser_scan_subs;
 	ros::Publisher controlled_cmd_vel_publ; 
-	ros::Publisher pillar_vis; 
+	ros::Publisher pillar_vis_publ; 
+	ros::Subscriber start_stop_subs; 
  
 };
 

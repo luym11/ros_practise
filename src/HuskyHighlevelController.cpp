@@ -11,7 +11,8 @@ HuskyHighlevelController::HuskyHighlevelController(ros::NodeHandle& nodeHandle) 
 	ROS_INFO_STREAM(topic_name << " " << queue_size); 
 	laser_scan_subs = nodeHandle.subscribe( topic_name, queue_size, &HuskyHighlevelController::laser_scan_Callback, this); 
 	controlled_cmd_vel_publ = nodeHandle.advertise<geometry_msgs::Twist>("/cmd_vel", 1); 
-	pillar_vis = nodeHandle.advertise<visualization_msgs::Marker>( "visualization_marker", 0 );
+	pillar_vis_publ = nodeHandle.advertise<visualization_msgs::Marker>( "visualization_marker", 0 );
+	start_stop_subs =  nodeHandle.subscribe( "/start_stop", 5, &HuskyHighlevelController::start_stop_Callback, this); 
 }
 
 void HuskyHighlevelController::laser_scan_Callback( const sensor_msgs::LaserScan::ConstPtr& laser_scan_msgs ){
@@ -27,15 +28,33 @@ void HuskyHighlevelController::laser_scan_Callback( const sensor_msgs::LaserScan
 		}
 	}
 	pillarAngle =  -0.785 + 1.5*pi/720 * direction_index; 
-	husky_angle_controller(2, pillarAngle); 
+
+	// should do sth here to stop/start
+	if(status_ == true){
+		husky_angle_controller(2, pillarAngle); 
+	} else{
+		husky_angle_controller(0, pi/2); 
+	}
+	
+	
 	controlled_cmd_vel_publ.publish(cmd_vel_command);
+	
+
 	pillar_vis_marker_func(); 
 	ROS_INFO_STREAM("The " << direction_index << "st message is chosen in " << laser_scan_distance.size() << " messages");
 	ROS_INFO_STREAM("minDistance detected by Lidar: " << minDistance << ", angle is " << pillarAngle);
 	ROS_INFO_STREAM("Angle_min " << laser_scan_msgs->angle_min << ", Angle_increment " << laser_scan_msgs->angle_increment);
 }
 
-void HuskyHighlevelController::husky_angle_controller(float speed; float angle){
+void HuskyHighlevelController::start_stop_Callback( const std_msgs::Bool trigger ){
+	if(trigger.data == true){
+		status_ = true;
+	}else{
+		status_ = false;
+	} 
+}
+
+void HuskyHighlevelController::husky_angle_controller(float speed, float angle){
 	// let the husky go at a constant speed
 	// read the angle towards the pillar, and use PID to turn the husky to the pillar (control the angle to 0)
 	cmd_vel_command.linear.x = speed; 
@@ -67,7 +86,7 @@ void HuskyHighlevelController::pillar_vis_marker_func(){
 	marker.color.b = 1.0;
 	//only if using a MESH_RESOURCE marker type:
 	marker.mesh_resource = "package://pr2_description/meshes/base_v0/base.dae";
-	pillar_vis.publish( marker );
+	pillar_vis_publ.publish( marker );
 }
 
 HuskyHighlevelController::~HuskyHighlevelController()

@@ -10,12 +10,21 @@
   <node name="keyboard_control" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" >
   </node>
   
-  <!--
+  
   <node name="husky_highlevel_controller" pkg="husky_highlevel_controller" type="husky_highlevel_controller" output="screen" >
 	<rosparam command="load" file="$(find husky_highlevel_controller)/config/config.yaml" />
   </node>
-  -->
+  
+
   <node pkg="rviz" type="rviz" name="rviz" >
   </node>
+
+  <node name = "emergency_stop_server" pkg="husky_highlevel_controller" type="husky_highlevel_controller_server">
+  </node>
+  
+  <!--
+  <node name = "emergency_stop_client" pkg="husky_highlevel_controller" type="husky_highlevel_controller_client" >
+  </node>
+  -->
 
 </launch>
